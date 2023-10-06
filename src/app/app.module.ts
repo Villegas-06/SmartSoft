@@ -6,15 +6,21 @@ import { FormsModule } from '@angular/forms';
 
 import { MaterialModule } from './components/material.module';
 import { AppComponent } from './app.component';
+
+import { AppRoutingModule } from './app-routing.module';
+
 import { LoginComponent } from './login/login.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { ReporteComponent } from './reporte/reporte.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, NavbarComponent, ReporteComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    MaterialModule, // Usa tu módulo personalizado en lugar de importar módulos individuales
+    MaterialModule, // Import module individual
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
