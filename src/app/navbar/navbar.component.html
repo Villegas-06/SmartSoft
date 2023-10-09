@@ -5,8 +5,8 @@
     <!-- Menu of navigation for users logged -->
     <div *ngIf="isLoggedIn">
       <div class="space-x-4">
-        <a href="#" class="text-white">Inicio</a>
-        <a href="#" class="text-white">Perfil</a>
+        <a routerLink="/crud_api" class="text-white">Reporte Covid 19</a>
+        <a routerLink="/covid19" class="text-white">CRUD API</a>
         <button
           class="bg-white text-blue-500 px-4 py-2 rounded-full"
           (click)="logout()"
@@ -19,7 +19,7 @@
     <!-- Menu of navigation for users not logged -->
     <div *ngIf="!isLoggedIn">
       <div class="space-x-4">
-        <a href="/" class="text-white">Iniciar Sesión</a>
+        <a routerLink="/" class="text-white">Iniciar Sesión</a>
       </div>
     </div>
   </div>

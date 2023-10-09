@@ -14,7 +14,12 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ReporteComponent } from './reporte/reporte.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavbarComponent, ReporteComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    NavbarComponent,
+    ReporteComponent,
+  ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

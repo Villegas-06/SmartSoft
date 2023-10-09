@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  isLoggedIn: boolean = false;
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
 
-  constructor() {
-    const isLoggedIn = localStorage.getItem('isLoggedIn');
-    this.isLoggedIn = isLoggedIn === 'true';
+  get isLoggedIn$(): Observable<boolean> {
+    return this.isLoggedInSubject.asObservable();
   }
+
+  constructor() {}
 
   login(email: string, password: string): boolean {
     // Simulate the auth, checking if the email and password match
@@ -19,7 +21,7 @@ export class AuthService {
     if (email === email && password === password) {
       // Set localstorage for login
       localStorage.setItem('isLoggedIn', 'true');
-      this.isLoggedIn = true;
+      this.isLoggedInSubject.next(true);
       return true; // login success
     } else {
       return false; // login fail
@@ -29,6 +31,6 @@ export class AuthService {
   logout(): void {
     // Logout delete the state
     localStorage.removeItem('isLoggedIn');
-    this.isLoggedIn = false;
+    this.isLoggedInSubject.next(false);
   }
 }

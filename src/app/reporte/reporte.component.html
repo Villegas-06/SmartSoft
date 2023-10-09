@@ -1,1 +1,20 @@
-<p>reporte works!</p>
+<div>
+  <input type="file" (change)="handleFileInput()" accept=".csv" />
+
+  <div *ngIf="showResults">
+    <p>Estado con mayor acumulado: {{ highestState }}</p>
+    <p>Estado con menor acumulado: {{ lowestState }}</p>
+    <p>Estado más afectado: {{ mostAffectedState }}</p>
+  </div>
+
+  <div class="flex justify-center items-center w-full">
+    <div class="bg-white rounded shadow-lg p-4">
+      <canvas
+        id="pieChart"
+        class="w-128 h-128"
+        width="768"
+        height="768"
+      ></canvas>
+    </div>
+  </div>
+</div>
