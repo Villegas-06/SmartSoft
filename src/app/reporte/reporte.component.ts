@@ -18,7 +18,6 @@ export class ReporteComponent implements OnInit, AfterViewInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log('ngOnInit is called');
     this.handleFileInput();
   }
 
@@ -53,10 +52,27 @@ export class ReporteComponent implements OnInit, AfterViewInit {
     let maxAccumulated = -1;
     let minAccumulated = Number.MAX_SAFE_INTEGER;
     let mostAffectedState = '';
+    let mostAffectedRate = -1; // To track the highest average rate
+    const startDate = new Date('12/27/20'); // Start date
+    const endDate = new Date('4/27/21'); // End date
 
     for (const row of this.data) {
-      const accumulated = Number(row['12/27/20']); // Convert to number
       const state = row['Province_State'];
+      let accumulated = 0;
+
+      // Iterate through the dates and sum the accumulated values
+      for (const dateKey of Object.keys(row)) {
+        const date = new Date(dateKey);
+
+        if (date >= startDate && date <= endDate) {
+          accumulated += Number(row[dateKey]);
+        }
+      }
+
+      // Calculate the average rate
+      const daysDifference =
+        (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
+      const average = accumulated / daysDifference;
 
       if (accumulated > maxAccumulated) {
         maxAccumulated = accumulated;
@@ -68,43 +84,63 @@ export class ReporteComponent implements OnInit, AfterViewInit {
         this.lowestState = state;
       }
 
-      // Calculate the most affected state (using a separate variable)
-      const startDate = new Date('12/27/20');
-      const endDate = new Date('4/27/21');
-      const daysDifference =
-        (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
-      const average = accumulated / daysDifference;
-
-      if (average > Number(mostAffectedState)) {
+      if (average > mostAffectedRate) {
+        mostAffectedRate = average;
         mostAffectedState = state;
       }
     }
 
     this.mostAffectedState = mostAffectedState;
-
-    console.log('Highest State:', this.highestState);
-    console.log('Lowest State:', this.lowestState);
-    console.log('Most Affected State:', this.mostAffectedState);
   }
 
   createPieChart(data: any) {
     const canvas: any = document.getElementById('pieChart');
     const ctx = canvas.getContext('2d');
-    console.log(ctx);
 
     const stateDeaths: { [key: string]: number } = {};
 
-    // Calculate death counts by state
-    for (const row of this.data) {
-      console.log('createPieChart is called');
+    let highestState = ''; // Initialize the highest state
+    let highestDeaths = -1;
 
+    let lowestState = ''; // Initialize the lowest state
+    let lowestDeaths = Number.MAX_SAFE_INTEGER;
+
+    let mostAffectedState = ''; // Initialize the most affected state
+    let highestAverage = -1;
+
+    for (const row of data) {
       const state = row['Province_State'];
-      const deaths = parseInt(row['12/27/20']);
+      const deaths = parseInt(row['4/27/21']); // Use the latest date (4/27/21) for calculations
 
+      // Calculate total deaths by state
       if (stateDeaths[state]) {
         stateDeaths[state] += deaths;
       } else {
         stateDeaths[state] = deaths;
+      }
+
+      // Calculate state with highest accumulated deaths
+      if (deaths > highestDeaths) {
+        highestDeaths = deaths;
+        highestState = state;
+      }
+
+      // Calculate state with lowest accumulated deaths
+      if (deaths < lowestDeaths) {
+        lowestDeaths = deaths;
+        lowestState = state;
+      }
+
+      // Calculate most affected state (highest average)
+      const startDate = new Date('12/27/20');
+      const endDate = new Date('4/27/21');
+      const daysDifference =
+        (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
+      const average = deaths / daysDifference;
+
+      if (average > highestAverage) {
+        highestAverage = average;
+        mostAffectedState = state;
       }
     }
 
@@ -112,10 +148,6 @@ export class ReporteComponent implements OnInit, AfterViewInit {
     const labels = Object.keys(stateDeaths);
     const values = Object.values(stateDeaths);
     const colors = this.getRandomColorArray(labels.length);
-
-    console.log(labels);
-    console.log(values);
-    console.log(colors);
 
     // Create the pie chart
     new Chart(ctx, {

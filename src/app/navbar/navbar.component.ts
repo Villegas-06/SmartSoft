@@ -9,17 +9,23 @@ import { AuthService } from '../auth.service';
 })
 export class NavbarComponent implements OnInit {
   isLoggedIn: boolean = false;
+  isMenuOpen: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.isLoggedIn$.subscribe((loggedIn) => {
       this.isLoggedIn = loggedIn;
+      console.log(this.isLoggedIn);
     });
   }
 
-  logout() {
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  onLogout() {
     this.authService.logout();
-    this.router.navigate(['/']);
+    this.router.navigate(['/login']);
   }
 }

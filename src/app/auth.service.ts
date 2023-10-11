@@ -11,26 +11,31 @@ export class AuthService {
     return this.isLoggedInSubject.asObservable();
   }
 
-  constructor() {}
+  constructor() {
+    // Check if the user is authenticated when the service is loaded.
+    this.isLoggedInSubject.next(this.isAuthenticated());
+  }
 
   login(email: string, password: string): boolean {
-    // Simulate the auth, checking if the email and password match
-    const storedEmail = localStorage.getItem('email');
-    const storedPassword = localStorage.getItem('password');
-
-    if (email === email && password === password) {
-      // Set localstorage for login
-      localStorage.setItem('isLoggedIn', 'true');
-      this.isLoggedInSubject.next(true);
-      return true; // login success
+    // Simulate authentication, checking if the email and password match
+    if (email && password) {
+      // Set localStorage for login
+      localStorage.setItem('token', 'true');
+      this.isLoggedInSubject.next(true); // Update the navbar state
+      return true; // Login successful
     } else {
-      return false; // login fail
+      return false; // Login failed
     }
   }
 
   logout(): void {
-    // Logout delete the state
-    localStorage.removeItem('isLoggedIn');
-    this.isLoggedInSubject.next(false);
+    // Remove the login state
+    localStorage.removeItem('token');
+    this.isLoggedInSubject.next(false); // Update the navbar state
+  }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token');
+    return token === 'true'; // Convert the token value to a boolean
   }
 }
