@@ -1,0 +1,32 @@
+<div
+  class="container flex mx-auto p-4 sm:flex sm:justify-between sm:items-start sm:items-center sm: justify-between items-center justify-between"
+>
+  <input
+    type="file"
+    class="w-full sm:w-1/3 p-2"
+    (change)="handleFileInput()"
+    accept=".csv"
+  />
+
+  <div class="sm:w-2/3" *ngIf="showResults">
+    <p>State with Highest Accumulated Deaths: {{ highestState }}</p>
+    <p>State with Lowest Accumulated Deaths: {{ lowestState }}</p>
+    <p>
+      Most Affected State: {{ mostAffectedState }}, Because it is the most
+      affected city in terms of cases and numbers
+    </p>
+  </div>
+</div>
+
+<div class="container mx-auto p-4 sm:flex sm:justify-between sm:items-start">
+  <div class="w-full flex justify-center items-center">
+    <div class="bg-white rounded shadow-lg p-4">
+      <canvas
+        id="pieChart"
+        class="w-full h-128"
+        width="750"
+        height="750"
+      ></canvas>
+    </div>
+  </div>
+</div>

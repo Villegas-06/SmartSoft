@@ -1,0 +1,39 @@
+<div class="min-h-screen flex items-center justify-center">
+  <mat-card class="w-96 p-6">
+    <mat-card-header>
+      <mat-card-title>Iniciar Sesión</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form (ngSubmit)="login()" #loginForm="ngForm">
+        <mat-card-content class="w-full">
+          <input
+            matInput
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="email"
+            required
+            placeholder="Correo electrónico"
+          />
+        </mat-card-content>
+        <mat-card-content class="w-full">
+          <input
+            matInput
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="password"
+            required
+            placeholder="Contraseña"
+          />
+        </mat-card-content>
+        <button
+          type="submit"
+          class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        >
+          Iniciar Sesión
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

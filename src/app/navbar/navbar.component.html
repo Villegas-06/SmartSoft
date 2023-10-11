@@ -1,0 +1,41 @@
+<nav class="bg-blue-500 p-4">
+  <div class="container mx-auto flex justify-between items-center">
+    <a href="/login" class="text-white text-xl font-bold">My Application</a>
+
+    <div *ngIf="isLoggedIn">
+      <!-- Hamburger menu icon for small screens -->
+      <button class="lg:hidden text-white" (click)="toggleMenu()">☰</button>
+
+      <!-- Navigation menu for larger screens -->
+      <div class="hidden lg:flex space-x-4">
+        <a href="/covid19" class="text-white">COVID-19 Report</a>
+        <a href="/crud_api" class="text-white">CRUD API</a>
+        <button
+          class="bg-white text-blue-500 px-4 py-2 rounded-full"
+          (click)="onLogout()"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile menu for small screens -->
+  <div *ngIf="isLoggedIn">
+    <div
+      class="lg:hidden"
+      [ngClass]="{ block: isMenuOpen, hidden: !isMenuOpen }"
+    >
+      <div class="text-white text-center my-4">
+        <a href="/covid19" class="block">COVID-19 Report</a>
+        <a href="/crud_api" class="block">CRUD API</a>
+        <button
+          class="bg-white text-blue-500 px-4 py-2 rounded-full"
+          (click)="onLogout()"
+        >
+          Logout
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>
